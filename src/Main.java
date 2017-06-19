@@ -30,7 +30,7 @@ public class Main {
 
     private void getListFilm(String listFilm) throws IOException {
 //        Document docListFilm = Jsoup.connect(listFilm).get();
-        File input = new File("assets/Trung Tâm Chiếu Phim Quốc Gia.html");
+        File input = new File("assets/cinema.html");
         Document docListFilm =  Jsoup.parse(input, "UTF-8", listFilm);
         Elements show_times = docListFilm.getElementsByClass("showtime");
 
