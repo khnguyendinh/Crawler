@@ -19,12 +19,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Main main = new Main();
-        String listFilm = "https://chieuphimquocgia.com.vn/showtimes-lich-chieu-phim";
+        String lich_chieu = "https://chieuphimquocgia.com.vn/showtimes-lich-chieu-phim";
         String myFilm = "https://chieuphimquocgia.com.vn/vet-co-phieu-luu-ky-(2d-lt)---p-chi-tiet-film-7403";
         String myRoom = "https://chieuphimquocgia.com.vn/PlanScreenings/BookTicket?pId=144494";
         String linkRap = "https://chieuphimquocgia.com.vn";
 //        main.processPage(myFilm,myRoom,linkRap);
-        main.getListFilm(listFilm);
+        main.getListFilm(lich_chieu);
 //        insertDB();
     }
 
@@ -44,9 +44,22 @@ public class Main {
         listFilmToDay = getListFilmOneDay(show_time_0);
     }
 
-    private List<ItemListFilm> getListFilmOneDay(Element show_time_0) {
+    private List<ItemListFilm> getListFilmOneDay(Element show_time) {
         List<ItemListFilm> result = new ArrayList<>();
+        Elements itemFilms = show_time.getElementsByClass("movie_showtime");
+//        String name1 = itemFilms.att.get(0).text();
+        for (int i = 0; i < itemFilms.size() ; i++) {
+            if(itemFilms.get(i).getElementsByTag("td").size() > 3 ){
+                String name1 = itemFilms.get(i).getElementsByTag("td").get(3).getElementsByTag("a").get(0).text();
+                System.out.println(""+name1);
+            }else {
+                String name1 = itemFilms.get(i).getElementsByTag("td").get(2).getElementsByTag("a").get(0).text();
+                System.out.println(""+name1);
+            }
 
+        }
+//        String name1 = itemFilms.get(0).getElementsByTag("td").get(3).getElementsByTag("a").get(0).text();
+//        System.out.println(""+name1);
         return null;
     }
 
