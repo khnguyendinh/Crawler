@@ -1,3 +1,4 @@
+import Models.ObjectPhimInServer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,11 +29,11 @@ public class Main {
 
         Document docRoom = Jsoup.connect(urlRoom).get();
 
-        String idRap;
-        String tenRap;
-        String urlRap ;
+        String idRap = "1";
+        String tenRap = "Quốc gia";
+        String urlRap = linkRap;
         String tenPhim = content_film.select("a[href]").get(0).text().toString();
-        String tenPhimTiengAnh;
+        String tenPhimTiengAnh = tenPhim;
         String idPhim = content_film.select("p").get(7).select("a[href]").get(0).attr("href").replace("/PlanScreenings/Sessiontimes?filmId=","");
         String urlRutGon = linkRap + docFilm.getElementsByClass("screen_showtime").select("a[href]").get(0).attr("href");
         String ngayChieu = docFilm.getElementsByClass("showtime").text();
@@ -44,35 +45,55 @@ public class Main {
         String thoiLuong = content_film.select("p").get(1).text().replace("Thời lượng: ","");
         String daoDien = content_film.select("p").get(3).text().replace("Đạo diễn:","");
         String dienVien = content_film.select("p").get(2).text().replace("Diễn viên: ","");
-        String ngonNgu;
+        String ngonNgu = "VN";
         String quocGia = content_film.select("p").get(4).text().replace("Xuất xứ:","");
         String theLoai = content_film.select("p").get(0).text().replace("Loại phim:","");
         String trailer = content_film.select("p").get(7).getElementsByClass("trainer").attr("href");
         String noiDung = content_film.select("p").get(6).text().replace("Xuất xứ:","");
-        String idKhungGioClick;
-        String phongChieu;
+        String idKhungGioClick = "idClick";
+        String phongChieu = "phongCHieu";
         String urlChiTietPhim = "";
-        String list_trailer;
-        int idLocation;
-        String tinhThanh;
-        String tenPhimChuanVN;
+        String list_trailer= trailer;
+        int idLocation = 0;
+        String tinhThanh = "Ha noi";
+        String tenPhimChuanVN = tenPhim;
 
-        System.out.println(tenPhim);
-        System.out.println(idPhim);
-        System.out.println("urlRutGon "+urlRutGon);
-        System.out.println(ngayChieu);
-        System.out.println("idKhungGio "+idKhungGio);
-        System.out.println("khungGio "+khungGio);
-        System.out.println(ngayKhoiChieu);
-        System.out.println(anhDaiDien);
-        System.out.println(thoiLuong);
-        System.out.println(daoDien);
-        System.out.println(dienVien);
-        System.out.println(quocGia);
-        System.out.println(theLoai);
-        System.out.println(trailer);
-        System.out.println(noiDung);
 
+
+        ObjectPhimInServer objectPhimInServer = new ObjectPhimInServer();
+        objectPhimInServer.idRap = idRap;
+        objectPhimInServer.tenRap = tenRap;
+        objectPhimInServer.urlRap = urlRap;
+        objectPhimInServer.tenPhim = tenPhim;
+        objectPhimInServer.tenPhimTiengAnh= tenPhimTiengAnh;
+        objectPhimInServer.idPhim= idPhim;
+        objectPhimInServer.urlRutGon= urlRutGon;
+        objectPhimInServer.ngayChieu= ngayChieu;
+        objectPhimInServer.idKhungGio= idKhungGio;
+        objectPhimInServer.khungGio= khungGio;
+
+
+        objectPhimInServer.ngayKhoiChieu= ngayKhoiChieu;
+        objectPhimInServer.anhDaiDien= anhDaiDien;
+        objectPhimInServer.thoiLuong= thoiLuong;
+        objectPhimInServer.daoDien= daoDien;
+        objectPhimInServer.dienVien= dienVien;
+        objectPhimInServer.ngonNgu= ngonNgu;
+        objectPhimInServer.quocGia= quocGia;
+        objectPhimInServer.theLoai= theLoai;
+        objectPhimInServer.trailer= trailer;
+        objectPhimInServer.noiDung= noiDung;
+        objectPhimInServer.idKhungGioClick= idKhungGioClick;
+        objectPhimInServer.phongChieu= phongChieu;
+
+
+        objectPhimInServer.urlChiTietPhim = urlChiTietPhim;
+        objectPhimInServer.list_trailer= list_trailer;
+        objectPhimInServer.idLocation= idLocation;
+        objectPhimInServer.tinhThanh= tinhThanh;
+        objectPhimInServer.tenPhimChuanVN= tenPhimChuanVN;
+
+       objectPhimInServer.showInfor();
 
     }
 }
