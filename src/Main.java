@@ -1,11 +1,16 @@
+import Models.ItemListFilm;
 import Models.ObjectPhimInServer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -14,11 +19,38 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Main main = new Main();
+        String listFilm = "https://chieuphimquocgia.com.vn/showtimes-lich-chieu-phim";
         String myFilm = "https://chieuphimquocgia.com.vn/vet-co-phieu-luu-ky-(2d-lt)---p-chi-tiet-film-7403";
         String myRoom = "https://chieuphimquocgia.com.vn/PlanScreenings/BookTicket?pId=144494";
         String linkRap = "https://chieuphimquocgia.com.vn";
-        main.processPage(myFilm,myRoom,linkRap);
+//        main.processPage(myFilm,myRoom,linkRap);
+        main.getListFilm(listFilm);
+//        insertDB();
+    }
 
+    private void getListFilm(String listFilm) throws IOException {
+//        Document docListFilm = Jsoup.connect(listFilm).get();
+        File input = new File("assets/Trung Tâm Chiếu Phim Quốc Gia.html");
+        Document docListFilm =  Jsoup.parse(input, "UTF-8", listFilm);
+        Elements show_times = docListFilm.getElementsByClass("showtime");
+
+        //danh sách phim today
+        Element show_time_0 = show_times.get(0);
+        //danh sách phim tomorow
+        Element show_time_1 = show_times.get(1);
+
+        //lấy danh sách phim ngày hôm nay
+        List<ItemListFilm> listFilmToDay = new ArrayList<>();
+        listFilmToDay = getListFilmOneDay(show_time_0);
+    }
+
+    private List<ItemListFilm> getListFilmOneDay(Element show_time_0) {
+        List<ItemListFilm> result = new ArrayList<>();
+
+        return null;
+    }
+
+    private void insertDB() {
     }
 
     private void processPage(String urlFilm,String urlRoom,String linkRap) throws IOException {
