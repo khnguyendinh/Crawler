@@ -37,7 +37,7 @@ public class ObjectPhimInServer {
     public String tenPhimChuanVN;
 
     public void showInfor(){
-        System.out.println("Infor Film ");
+//        System.out.println("Infor Film ");
         System.out.println("==================================================================");
         System.out.println(tenPhim);
         System.out.println(idPhim);

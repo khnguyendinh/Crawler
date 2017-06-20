@@ -7,9 +7,12 @@ import java.util.List;
  */
 public class ItemListFilm {
 
-    public String tenPhim;
-    //link trỏ đến chi tiết phim
-    public String urlRutGon;
+    public String tenPhimVn;
+    public String tenPhimEn;
+    //link trỏ đến chi tiết phim Việt nam
+    public String urlChiTietVN;
+    //link trỏ đến chi tiết phim English
+    public String urlChiTietEN;
     //thời gian chiếu
     public List<String> show_times;
     //ID thời gian chiếu
