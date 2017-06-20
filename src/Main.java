@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Main {
     String linkDatVe = "https://chieuphimquocgia.com.vn/PlanScreenings/BookTicket?pId=";
-    String linkRap = "https://chieuphimquocgia.com.vn";
+    String linkRap = "http://www.chieuphimquocgia.com.vn/";
 
     public Main() {
     }
@@ -28,7 +28,6 @@ public class Main {
 
         List<ItemListFilm> listFilms = new ArrayList<>();
         List<ObjectPhimInServer> objectPhimInServerList = new ArrayList<>();
-//      main.processPage(myFilm,myRoom,linkRap);
         listFilms = main.getListFilm(lich_chieu);
 
         objectPhimInServerList = main.processPage(listFilms);
@@ -42,7 +41,13 @@ public class Main {
     private List<ObjectPhimInServer> processPage(List<ItemListFilm> listFilms) throws IOException {
         List<ObjectPhimInServer> result = new ArrayList<>();
         for (ItemListFilm item : listFilms) {
-            Document docFilm = Jsoup.connect(item.urlChiTietVN).get();
+            Document docFilm = null;
+            try {
+                docFilm = Jsoup.connect(item.urlChiTietVN).get();
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("Error "+item.urlChiTietVN);
+            }
             if(docFilm.getElementsByClass("txt_error").size() > 0){
                 continue;
             }
@@ -51,8 +56,8 @@ public class Main {
             Element content_film = element.getElementsByClass("content_movie").get(0);
 
 
-            String idRap = "1";
-            String tenRap = "Quốc gia";
+            String idRap = "TTCPQG_NCC";
+            String tenRap = "Trung tâm chiếu phim quốc gia";
             String urlRap = linkRap;
 //              String tenPhim = content_film.select("a[href]").get(0).text().toString();
             String tenPhim = item.tenPhimVn;
@@ -95,7 +100,7 @@ public class Main {
             String urlChiTietPhim = "";
             String list_trailer = trailer;
             int idLocation = 0;
-            String tinhThanh = "Ha noi";
+            String tinhThanh = "Hà Nội";
             String tenPhimChuanVN = tenPhim;
 
 
@@ -165,7 +170,7 @@ public class Main {
         listFilmToDay = getListFilmOneDay(show_time_0);
         if (listFilmToDay != null && listFilmToDay.size() > 0) {
             listFilmAllDay.addAll(listFilmToDay);
-            System.out.println(new Gson().toJson(listFilmToDay));
+//            System.out.println(new Gson().toJson(listFilmToDay));
         }
         if (listFilmAllDay.size() > 0) {
             return listFilmAllDay;
@@ -297,78 +302,4 @@ public class Main {
     private void insertDB() {
     }
 
-    private void processPage(String urlFilm, String urlRoom, String linkRap) throws IOException {
-        Document docFilm = Jsoup.connect(urlFilm).get();
-        Elements elements = docFilm.getElementsByClass("wrapper");
-        Element element = elements.get(2);
-        Element content_film = element.getElementsByClass("content_movie").get(0);
-
-        Document docRoom = Jsoup.connect(urlRoom).get();
-
-        String idRap = "1";
-        String tenRap = "Quốc gia";
-        String urlRap = linkRap;
-        String tenPhim = content_film.select("a[href]").get(0).text().toString();
-        String tenPhimTiengAnh = tenPhim;
-        String idPhim = content_film.select("p").get(7).select("a[href]").get(0).attr("href").replace("/PlanScreenings/Sessiontimes?filmId=", "");
-        String urlRutGon = linkRap + docFilm.getElementsByClass("screen_showtime").select("a[href]").get(0).attr("href");
-        String ngayChieu = docFilm.getElementsByClass("showtime").text();
-        ngayChieu = ngayChieu.substring(ngayChieu.indexOf("-") + 1, ngayChieu.indexOf("-") + 11);
-        String idKhungGio = docFilm.getElementsByClass("screen_showtime").select("a[href]").get(0).attr("href").replace("/PlanScreenings/BookTicket?pId=", "");
-        String khungGio = docFilm.getElementsByClass("screen_showtime").select("a[href]").get(0).text();
-        String ngayKhoiChieu = content_film.select("p").get(5).text().replace("Khởi chiếu :", "");
-        String anhDaiDien = content_film.select("img[src$=.jpg]").get(0).absUrl("src").toString();
-        String thoiLuong = content_film.select("p").get(1).text().replace("Thời lượng: ", "");
-        String daoDien = content_film.select("p").get(3).text().replace("Đạo diễn:", "");
-        String dienVien = content_film.select("p").get(2).text().replace("Diễn viên: ", "");
-        String ngonNgu = "VN";
-        String quocGia = content_film.select("p").get(4).text().replace("Xuất xứ:", "");
-        String theLoai = content_film.select("p").get(0).text().replace("Loại phim:", "");
-        String trailer = content_film.select("p").get(7).getElementsByClass("trainer").attr("href");
-        String noiDung = content_film.select("p").get(6).text().replace("Xuất xứ:", "");
-        String idKhungGioClick = "idClick";
-        String phongChieu = "phongCHieu";
-        String urlChiTietPhim = "";
-        String list_trailer = trailer;
-        int idLocation = 0;
-        String tinhThanh = "Ha noi";
-        String tenPhimChuanVN = tenPhim;
-
-
-        ObjectPhimInServer objectPhimInServer = new ObjectPhimInServer();
-        objectPhimInServer.idRap = idRap;
-        objectPhimInServer.tenRap = tenRap;
-        objectPhimInServer.urlRap = urlRap;
-        objectPhimInServer.tenPhim = tenPhim;
-        objectPhimInServer.tenPhimTiengAnh = tenPhimTiengAnh;
-        objectPhimInServer.idPhim = idPhim;
-        objectPhimInServer.urlRutGon = urlRutGon;
-        objectPhimInServer.ngayChieu = ngayChieu;
-        objectPhimInServer.idKhungGio = idKhungGio;
-        objectPhimInServer.khungGio = khungGio;
-
-
-        objectPhimInServer.ngayKhoiChieu = ngayKhoiChieu;
-        objectPhimInServer.anhDaiDien = anhDaiDien;
-        objectPhimInServer.thoiLuong = thoiLuong;
-        objectPhimInServer.daoDien = daoDien;
-        objectPhimInServer.dienVien = dienVien;
-        objectPhimInServer.ngonNgu = ngonNgu;
-        objectPhimInServer.quocGia = quocGia;
-        objectPhimInServer.theLoai = theLoai;
-        objectPhimInServer.trailer = trailer;
-        objectPhimInServer.noiDung = noiDung;
-        objectPhimInServer.idKhungGioClick = idKhungGioClick;
-        objectPhimInServer.phongChieu = phongChieu;
-
-
-        objectPhimInServer.urlChiTietPhim = urlChiTietPhim;
-        objectPhimInServer.list_trailer = list_trailer;
-        objectPhimInServer.idLocation = idLocation;
-        objectPhimInServer.tinhThanh = tinhThanh;
-        objectPhimInServer.tenPhimChuanVN = tenPhimChuanVN;
-
-        objectPhimInServer.showInfor();
-
-    }
 }
